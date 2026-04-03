@@ -1,2 +1,1 @@
-https://roadmap.sh/projects/simple-tabs
-https://roadmap.sh/projects/simple-tabs
+https://roadmap.sh/projects/simple-tabs/solutions?u=69c4ee3d33a0ad7a573d82f1

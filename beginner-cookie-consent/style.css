@@ -1,0 +1,29 @@
+body {
+    font-family: Arial;
+    padding: 40px;
+}
+
+/* popup */
+.cookie-popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 250px;
+    background: black;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 8px 10px;
+    border: none;
+    background: white;
+    cursor: pointer;
+}
+
+.close {
+    float: right;
+    cursor: pointer;
+}
