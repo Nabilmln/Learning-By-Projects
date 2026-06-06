@@ -1,0 +1,27 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f4f8;
+}
+
+.container {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.hidden { display: none; }
+.error-message { color: #dc2626; margin-top: 1rem; }
+.result { margin-top: 1rem; font-size: 1.1rem; }
+
+@media (max-width: 480px) {
+    .container { margin: 1rem; padding: 1.5rem; }
+}
