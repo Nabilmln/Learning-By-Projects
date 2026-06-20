@@ -1,6 +1,6 @@
-function Timer ({ timer }){
+function Timer ({ time }){
     return (
-        <h1>{timer}</h1>
+        <h1 className="timer">{time}</h1>
     );
 }
 export default Timer;

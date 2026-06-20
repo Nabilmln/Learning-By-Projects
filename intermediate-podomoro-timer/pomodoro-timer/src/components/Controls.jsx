@@ -1,22 +1,19 @@
-function Controls ({ onStart, onPause, onRestart }){
-    return (
-      <>
-        {/* <button onClick={() => setIsRunning(true)}> Start </button>
-        <button onClick={() => setIsRunning(false)}> Pause </button>
-        <button
-          onClick={() => {
-            setIsRunning(false);
-            setSessionType("work");
-            setCompleteSessions(0);
-            setTimeLeft(25 * 60);
-          }}
-        >
-          Restart
-        </button> */}
-        <button onClick={onStart}> Start </button>
-        <button onClick={onPause}> Pause </button>
-        <button onClick={onRestart}> Restart </button>
-      </>
-    );
+function Controls({ onStart, onPause, onReset, isRunning }) {
+  return (
+    <div className="controls">
+      <button aria-label="Start timer" disabled={isRunning} onClick={onStart}>
+        {" "}
+        Start{" "}
+      </button>
+      <button aria-label="Pause timer" disabled={!isRunning} onClick={onPause}>
+        {" "}
+        Pause{" "}
+      </button>
+      <button aria-label="Reset timer" onClick={onReset}>
+        {" "}
+        Restart{" "}
+      </button>
+    </div>
+  );
 }
 export default Controls;

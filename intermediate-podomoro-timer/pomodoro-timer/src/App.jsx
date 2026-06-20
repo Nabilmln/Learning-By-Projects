@@ -1,14 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef} from 'react'
 import Timer from './components/Timer';
 import Controls from './components/Controls';
 import SessionInfo from './components/SessionInfo';
+import Settings from './components/Settings';
 import './App.css'
 
 function App() {
-  const [timeLeft, setTimeLeft] = useState(1500);
+  const [timeLeft, setTimeLeft] = useState(25*60);
   const [isRunning, setIsRunning] = useState(false);
   const [sessionType, setSessionType] = useState('work');
-  const [completeSessions, setCompleteSessions] = useState(0);
+  const [completedSessions, setCompletedSessions] = useState(0);
+  const [settings, setSettings] = useState({
+    work: 25,
+    shortBreak: 5,
+    longBreak: 15,
+  });
+  const alarmRef = useRef (new Audio("/alarm.mp3"));
 
   const formatTime = () => {
     const minutes = Math.floor(timeLeft/60);
@@ -16,37 +23,41 @@ function App() {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
 
-  const switchSession = () => {
-    if(sessionType === "work"){
+const switchSession = () => {
+  if (sessionType === "work") {
+    const nextCompleted = completedSessions + 1;
 
-      const newComplete = completeSessions + 1;
-      setCompleteSessions(newComplete);
+    setCompletedSessions(nextCompleted);
 
-      if(newComplete % 4 === 0) {
-        setSessionType("LongBreak");
-        setTimeLeft(15*60);
-      } else {
-        setSessionType("ShortBreak");
-        setTimeLeft(5*60);
-        }
-      }
-      else {
-        setSessionType("work");
-        setTimeLeft(25*60);
+    if (nextCompleted % 4 === 0) {
+      setSessionType("longBreak");
+
+      setTimeLeft(settings.longBreak * 60);
+    } else {
+      setSessionType("shortBreak");
+
+      setTimeLeft(settings.shortBreak * 60);
     }
-  };
+  } else {
+    setSessionType("work");
 
+    setTimeLeft(settings.work * 60);
+  }
+};
+
+  
   useEffect(() => {
     if(isRunning){
       const interval = setInterval(() => {
         // setTimeLeft(prevTime => prevTime - 1);
-        setTimeLeft(prevTime => {
-          if(prevTime <= 1){
+        setTimeLeft(prev => {
+          if(prev <= 1){
             setIsRunning(false);
+            alarmRef.current.play();
             switchSession();
             return 0;
           }
-          return prevTime - 1;
+          return prev - 1;
         });
       }, 1000);
 
@@ -54,20 +65,37 @@ function App() {
     }
   }, [isRunning]);
 
+  useEffect(() => {
+    document.title = `${formatTime()} - ${
+      sessionType === "work"
+        ? "Work"
+        : sessionType === "shortBreak"
+          ? "Short Break"
+          : "Long Break"
+    }`;
+  }, [timeLeft, sessionType]);
+
   return (
-    <div>
-      <h1>Podomoro Timer</h1>
-      <SessionInfo sessionType={sessionType} completeSessions={completeSessions} />
-      <Timer timeLeft={formatTime()} />
-      <Controls 
+    <div className="App">
+      <h1>Pomodoro Timer</h1>
+
+      <SessionInfo
+        sessionType={sessionType}
+        completedSessions={completedSessions}
+      />
+      <Timer time={formatTime()} />
+      <Controls
+        isRunning={isRunning}
         onStart={() => setIsRunning(true)}
         onPause={() => setIsRunning(false)}
         onReset={() => {
           setIsRunning(false);
-          setTimeLeft(sessionType === "work" ? 25*60 : sessionType === "ShortBreak" ? 5*60 : 15*60);
-        }
-      } />
-
+          setSessionType("work");
+          setCompletedSessions(0);
+          setTimeLeft(settings.work * 60);
+        }}
+      />
+      <Settings settings={settings} setSettings={setSettings} />
     </div>
   );
 }
