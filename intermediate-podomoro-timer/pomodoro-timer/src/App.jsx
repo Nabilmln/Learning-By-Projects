@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from './assets/vite.svg'
-// import heroImg from './assets/hero.png'
+import Timer from './components/Timer';
+import Controls from './components/Controls';
+import SessionInfo from './components/SessionInfo';
 import './App.css'
 
 function App() {
@@ -57,14 +57,16 @@ function App() {
   return (
     <div>
       <h1>Podomoro Timer</h1>
-      <h2>{sessionType === "work" ? "Work Sessions": sessionType === "shortBreak" ? "Short Break" : "Long Break"}</h2>
-      <h2>{formatTime()}</h2>
-
-      <button onClick={() => setIsRunning(true)}> Start </button>
-      <button onClick={() => setIsRunning(false)}> Pause </button>
-      <button onClick={() => {setIsRunning(false); setSessionType("work"); setCompleteSessions(0); setTimeLeft(25*60);}}>Restart</button>
-      <p> Complete Sessions: {completeSessions}</p>
-    
+      <SessionInfo sessionType={sessionType} completeSessions={completeSessions} />
+      <Timer timeLeft={formatTime()} />
+      <Controls 
+        onStart={() => setIsRunning(true)}
+        onPause={() => setIsRunning(false)}
+        onReset={() => {
+          setIsRunning(false);
+          setTimeLeft(sessionType === "work" ? 25*60 : sessionType === "ShortBreak" ? 5*60 : 15*60);
+        }
+      } />
 
     </div>
   );
