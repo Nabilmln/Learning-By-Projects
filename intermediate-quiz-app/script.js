@@ -77,7 +77,7 @@ function checkAnswer(selected) {
         }
 
         if(button.textContent === selected && selected !== correctAnswer) {
-            button.classList.add("incorrect");
+            button.classList.add("wrong");
         }
     });
 
