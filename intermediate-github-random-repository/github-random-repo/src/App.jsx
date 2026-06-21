@@ -40,28 +40,20 @@ function App() {
 
 
   return (
-    <div>
+    <div className="App">
       <h1>Github Random Repository</h1>
       <LanguageSelector langunage={language} setLanguage={setLanguage} />
-      {!language && (
-      <p>
-        Please select a programming language
-      </p>
-      )}
+      {!language && <p>Please select a programming language</p>}
       <p>selected language: {language}</p>
 
-      <button onClick={fetchRepo}>fetch repo</button>
-      {loading && (
-        <p>Loading...</p>
-      )}
+      <button onClick={fetchRepo} disabled={!language || loading}>
+        fetch repo
+      </button>
+      {loading && <p>Fething Repository...</p>}
 
-      {error && (
-        <p>{error}</p>
-      )}
+      {error && <p>{error}</p>}
 
-      {repo && (
-        <RepositoryCard repo={repo} />
-      )}
+      {repo && <RepositoryCard repo={repo} />}
     </div>
   );
 }

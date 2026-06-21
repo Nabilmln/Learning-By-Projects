@@ -1,11 +1,16 @@
 function RepositoryCard({ repo }) {
   return (
-    <div>
-        <h2>{repo.name}</h2>
-        <p>{repo.description}</p>
-        <p>⭐ {repo.stargazers_count}</p>
-        <p>🍴 {repo.forks_count}</p>
-        <p>🐛 {repo.open_issues_count}</p>
+    <div className="repo-card">
+      <h2>{repo.name}</h2>
+      <p className="description">{repo.description}</p>
+      <div className="repo-stats">
+        <span>⭐ {repo.stargazers_count}</span>
+        <span>🍴 {repo.forks_count}</span>
+        <span>🐛 {repo.open_issues_count}</span>
+      </div>
+      <a href={repo.html_url} target="_blank" rel="noreferrer">
+        View Repository
+      </a>
     </div>
   );
 }
