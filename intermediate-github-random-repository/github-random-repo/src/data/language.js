@@ -1,5 +1,6 @@
 export const languages = [
     "JavaScript",
+    "HTML",
     "Python",
     "Java",
     "TypeScript",
