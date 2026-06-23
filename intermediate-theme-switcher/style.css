@@ -1,0 +1,36 @@
+:root {
+    --color-bg: #f8fafc;
+    --color-surface: white;
+    --color-text: #1e293b;
+    --color-accent: #2563eb;
+    --radius: 12px;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: sans-serif;
+}
+
+.card {
+    width: 350px;
+    padding: 24px;
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    box-shadow: 0 10px 20px rgba(0,0,0,.1);
+}
+
+button {
+    background: var(--color-accent);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: var(--radius);
+}
+
