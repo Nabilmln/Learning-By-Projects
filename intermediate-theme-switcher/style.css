@@ -34,3 +34,47 @@ button {
     border-radius: var(--radius);
 }
 
+body:has(#dark:checked){
+    --color-bg: #0f172a;
+    --color-surface: #1e293b;
+    --color-text: white;
+    --color-accent: #3b82f6;
+}
+
+body:has(#forest:checked){
+    --color-bg: #e8f5e9;
+    --color-surface: #ffffff;
+    --color-text: #1b4332;
+    --color-accent: #2d6a4f;
+}
+
+body:has(#light:checked){
+    --color-bg: #f8fafc;
+    --color-surface: white;
+    --color-text: #1e293b;
+    --color-accent: #2563eb;
+}
+
+.theme-switcher{
+    display:flex;
+    gap:10px;
+}
+
+.theme-switcher input{
+    display:none;
+}
+
+.theme-switcher label{
+    cursor:pointer;
+    padding:8px 14px;
+    border-radius:8px;
+    background:#ddd;
+}
+
+#light:checked + label,
+#dark:checked + label,
+#forest:checked + label{
+    background:
+        var(--color-accent);
+    color:white;
+}
