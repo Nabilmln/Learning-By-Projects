@@ -1,0 +1,17 @@
+.story-list{
+  display:flex;
+  gap:12px;
+}
+
+.story-circle{
+
+  width:70px;
+
+  height:70px;
+
+  border-radius:50%;
+
+  object-fit:cover;
+
+  border:3px solid hotpink;
+}
