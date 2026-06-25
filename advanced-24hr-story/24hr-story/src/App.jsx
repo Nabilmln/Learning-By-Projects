@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react'
-import './App.css'
+import { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
   const [stories, setStories] = useState([]);
+  const [currentStoryIndex, setCurrentStoryIndex] = useState(null);
+  const [progress, setProgress] = useState(0);
 
   const handleUpload = (e) => {
     const file = e.target.files[0];
@@ -28,28 +30,86 @@ function App() {
     reader.readAsDataURL(file);
   };
 
-
   useEffect(() => {
     const savedStories = JSON.parse(localStorage.getItem("stories")) || [];
 
     setStories(savedStories);
   }, []);
 
+  useEffect(() => {
+    if (currentStoryIndex === null) return;
+
+    setProgress(0);
+
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+
+        return prev + 1;
+      });
+    }, 30);
+
+    return () => clearInterval(interval);
+  }, [currentStoryIndex]);
+
+  useEffect(() => {
+    if (progress < 100) return;
+
+    if (currentStoryIndex < stories.length - 1) {
+      setCurrentStoryIndex((prev) => prev + 1);
+    } else {
+      setCurrentStoryIndex(null);
+      setProgress(0);
+    }
+  }, [progress, currentStoryIndex, stories.length]);
+
   return (
-    <>
+    <div className="app">
+      <h1>24hr Stories</h1>
+
       <input type="file" accept="image/*" onChange={handleUpload} />
+
       <div className="story-list">
-        {stories.map((story) => (
+        {stories.map((story, index) => (
           <img
             key={story.id}
             src={story.image}
             alt="story"
             className="story-circle"
+            onClick={() => setCurrentStoryIndex(index)}
           />
         ))}
       </div>
-    </>
+
+      {currentStoryIndex !== null && stories[currentStoryIndex] && (
+        <div className="viewer">
+          <div className="progress-container">
+            <div
+              className="progress-bar"
+              style={{
+                width: `${progress}%`,
+              }}
+            />
+          </div>
+
+          <button
+            className="close-btn"
+            onClick={() => {
+              setCurrentStoryIndex(null);
+              setProgress(0);
+            }}
+          >
+            ✕
+          </button>
+
+          <img src={stories[currentStoryIndex]?.image} alt="story" />
+        </div>
+      )}
+    </div>
   );
 }
 
-export default App
+export default App;
