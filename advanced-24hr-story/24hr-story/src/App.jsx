@@ -29,6 +29,25 @@ function App() {
     reader.readAsDataURL(file);
   };
 
+  const nextStory = () => {
+    setProgress(0);
+    if (currentStoryIndex === null) return;
+
+    if (currentStoryIndex < stories.length - 1) {
+      setCurrentStoryIndex(prev => prev + 1);
+    } else {
+      setCurrentStoryIndex(null);
+    }
+  };
+
+  const previousStory = () => {
+    if (currentStoryIndex === null) return;
+
+    if (currentStoryIndex > 0){
+      setCurrentStoryIndex(currentStoryIndex -1);
+    }
+  };
+
   useEffect(() => {
     const savedStories = JSON.parse(localStorage.getItem("stories")) || [];
     const validStories = savedStories.filter((story) => {
@@ -56,15 +75,10 @@ function App() {
   }, [currentStoryIndex]);
 
   useEffect(() => {
-    if (progress < 100) return;
-
-    if (currentStoryIndex < stories.length - 1) {
-      setCurrentStoryIndex((prev) => prev + 1);
-    } else {
-      setCurrentStoryIndex(null);
-      setProgress(0);
-    }
-  }, [progress, currentStoryIndex, stories.length]);
+    if (progress >= 100){
+      nextStory();
+    } 
+  },[progress]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -117,6 +131,9 @@ function App() {
           >
             ✕
           </button>
+          
+          <div className="viewer-left" onClick={previousStory}/>
+          <div className="viewer-right" onClick={nextStory}/>
 
           <img src={stories[currentStoryIndex]?.image} alt="story" />
         </div>
