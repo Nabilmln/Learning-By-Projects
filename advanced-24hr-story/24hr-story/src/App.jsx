@@ -5,6 +5,7 @@ function App() {
   const [stories, setStories] = useState([]);
   const [currentStoryIndex, setCurrentStoryIndex] = useState(null);
   const [progress, setProgress] = useState(0);
+  const ONE_DAY = 24 * 60 * 60 * 1000;
 
   const handleUpload = (e) => {
     const file = e.target.files[0];
@@ -23,22 +24,22 @@ function App() {
       const updatedStories = [...stories, newStory];
 
       setStories(updatedStories);
-
       localStorage.setItem("stories", JSON.stringify(updatedStories));
     };
-
     reader.readAsDataURL(file);
   };
 
   useEffect(() => {
     const savedStories = JSON.parse(localStorage.getItem("stories")) || [];
-
-    setStories(savedStories);
+    const validStories = savedStories.filter((story) => {
+      return Date.now() - story.createdAt < ONE_DAY;
+    });
+    setStories(validStories);
+    localStorage.setItem("stories", JSON.stringify(validStories));
   }, []);
 
   useEffect(() => {
     if (currentStoryIndex === null) return;
-
     setProgress(0);
 
     const interval = setInterval(() => {
@@ -47,7 +48,6 @@ function App() {
           clearInterval(interval);
           return 100;
         }
-
         return prev + 1;
       });
     }, 30);
@@ -65,6 +65,19 @@ function App() {
       setProgress(0);
     }
   }, [progress, currentStoryIndex, stories.length]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStories((prevStories) => {
+        const validStories = prevStories.filter((story) => {
+          return Date.now() - story.createdAt < ONE_DAY;
+        });
+        localStorage.setItem("stories", JSON.stringify(validStories));
+        return validStories;
+      });
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="app">
