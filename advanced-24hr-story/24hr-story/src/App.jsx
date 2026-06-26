@@ -9,22 +9,53 @@ function App() {
 
   const handleUpload = (e) => {
     const file = e.target.files[0];
-
     if (!file) return;
-
     const reader = new FileReader();
 
     reader.onload = () => {
-      const newStory = {
-        id: Date.now(),
-        image: reader.result,
-        createdAt: Date.now(),
-      };
+      const img = new Image();
+      img.src = reader.result;
+      
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        
+        const MAX_WIDTH = 1080;
+        const MAX_HEIGHT = 1920;
+        
+        let width = img.width;
+        let height = img.height;
+        
+        if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+          
+          
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          const resizedImage = canvas.toDataURL("image/jpeg", 0.8);
 
-      const updatedStories = [...stories, newStory];
-
-      setStories(updatedStories);
-      localStorage.setItem("stories", JSON.stringify(updatedStories));
+          const newStory = {
+            id: Date.now(),
+            image: resizedImage,
+            createdAt: Date.now(),
+          };
+    
+          const updatedStories = [...stories, newStory];
+    
+          setStories(updatedStories);
+          localStorage.setItem("stories", JSON.stringify(updatedStories));
+        }
+        e.target.value = "";
     };
     reader.readAsDataURL(file);
   };
