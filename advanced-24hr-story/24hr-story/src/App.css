@@ -77,3 +77,63 @@ input[type="file"] {
   background: white;
   transition: width 30ms linear;
 }
+
+.viewer-left,
+.viewer-right{
+    position:absolute;
+    top:0;
+    width:50%;
+    height:100%;
+    z-index:1000;
+}
+
+.viewer-left{
+    left:0;
+}
+
+.viewer-right{
+    right:0;
+}
+
+.viewer-left,
+.viewer-right{
+    background:transparent;
+}
+
+.story-circle{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    border:4px solid hotpink;
+    object-fit:cover;
+    cursor:pointer;
+}
+
+.story-circle.viewed{
+    border-color:#999;
+    opacity:.8;
+}
+
+.upload-story{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:#eee;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:40px;
+    cursor:pointer;
+}
+
+@media(max-width:768px){
+
+.story-circle{
+  width:70px;
+  height:70px;
+  }
+
+.viewer img{
+  width:100%;
+  }
+}

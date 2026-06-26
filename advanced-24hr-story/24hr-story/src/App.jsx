@@ -6,6 +6,7 @@ function App() {
   const [currentStoryIndex, setCurrentStoryIndex] = useState(null);
   const [progress, setProgress] = useState(0);
   const ONE_DAY = 24 * 60 * 60 * 1000;
+  const [uploading, setUploading] = useState(false);
 
   const handleUpload = (e) => {
     const file = e.target.files[0];
@@ -48,6 +49,7 @@ function App() {
             id: Date.now(),
             image: resizedImage,
             createdAt: Date.now(),
+            viewed: false,
           };
     
           const updatedStories = [...stories, newStory];
@@ -69,6 +71,11 @@ function App() {
     } else {
       setCurrentStoryIndex(null);
     }
+
+    const nextIndex = currentStoryIndex + 1;
+    if (nextIndex < stories.length) {
+      markStoryAsViewed(nextIndex);
+    }
   };
 
   const previousStory = () => {
@@ -78,6 +85,15 @@ function App() {
       setCurrentStoryIndex(currentStoryIndex -1);
     }
   };
+
+  const markStoryAsViewed = (index) => {
+    const updatedStories = [...stories];
+    updatedStories[index].viewed = true;
+    setStories(updatedStories);
+    localStorage.setItem("stories", JSON.stringify(updatedStories));
+  };
+
+
 
   useEffect(() => {
     const savedStories = JSON.parse(localStorage.getItem("stories")) || [];
@@ -127,8 +143,15 @@ function App() {
   return (
     <div className="app">
       <h1>24hr Stories</h1>
+      {stories.length === 0 && <p>No stories yet. Upload your first story!</p>}
+      {/* <input type="file" accept="image/*" onChange={handleUpload} /> */}
 
-      <input type="file" accept="image/*" onChange={handleUpload} />
+      <label className="upload-story">
+        +
+        <input type="file" accept="image/*" onChange={handleUpload} hidden />
+      </label>
+
+      {uploading && <p>Uploading...</p>}
 
       <div className="story-list">
         {stories.map((story, index) => (
@@ -136,8 +159,11 @@ function App() {
             key={story.id}
             src={story.image}
             alt="story"
-            className="story-circle"
-            onClick={() => setCurrentStoryIndex(index)}
+            className={story.viewed ? "story-circle viewed" : "story-circle"}
+            onClick={() => {
+              markStoryAsViewed(index);
+              setCurrentStoryIndex(index);
+            }}
           />
         ))}
       </div>
@@ -162,9 +188,9 @@ function App() {
           >
             ✕
           </button>
-          
-          <div className="viewer-left" onClick={previousStory}/>
-          <div className="viewer-right" onClick={nextStory}/>
+
+          <div className="viewer-left" onClick={previousStory} />
+          <div className="viewer-right" onClick={nextStory} />
 
           <img src={stories[currentStoryIndex]?.image} alt="story" />
         </div>
