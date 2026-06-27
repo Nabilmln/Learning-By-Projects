@@ -100,14 +100,6 @@ input[type="file"] {
     background:transparent;
 }
 
-.story-circle{
-    width:80px;
-    height:80px;
-    border-radius:50%;
-    border:4px solid hotpink;
-    object-fit:cover;
-    cursor:pointer;
-}
 
 .story-circle.viewed{
     border-color:#999;
@@ -124,6 +116,14 @@ input[type="file"] {
     align-items:center;
     font-size:40px;
     cursor:pointer;
+    flex-shrink: 0;
+}
+
+.story-container{
+    display:flex;
+    overflow-x:auto;
+    gap:18px;
+    padding-bottom:10px;
 }
 
 @media(max-width:768px){

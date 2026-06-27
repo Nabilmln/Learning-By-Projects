@@ -9,6 +9,7 @@ function App() {
   const [uploading, setUploading] = useState(false);
 
   const handleUpload = (e) => {
+    setUploading(true);
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
@@ -56,10 +57,17 @@ function App() {
     
           setStories(updatedStories);
           localStorage.setItem("stories", JSON.stringify(updatedStories));
+          setUploading(false);
         }
         e.target.value = "";
     };
     reader.readAsDataURL(file);
+  };
+
+  const openStory = (index) => {
+    markStoryAsViewed(index);
+    setCurrentStoryIndex(index);
+    setProgress(0);
   };
 
   const nextStory = () => {
@@ -82,6 +90,7 @@ function App() {
     if (currentStoryIndex === null) return;
 
     if (currentStoryIndex > 0){
+      setProgress(0);
       setCurrentStoryIndex(currentStoryIndex -1);
     }
   };
@@ -146,55 +155,24 @@ function App() {
       {stories.length === 0 && <p>No stories yet. Upload your first story!</p>}
       {/* <input type="file" accept="image/*" onChange={handleUpload} /> */}
 
-      <label className="upload-story">
-        +
-        <input type="file" accept="image/*" onChange={handleUpload} hidden />
-      </label>
-
       {uploading && <p>Uploading...</p>}
+      <div className="story-container">
 
-      <div className="story-list">
-        {stories.map((story, index) => (
-          <img
-            key={story.id}
-            src={story.image}
-            alt="story"
-            className={story.viewed ? "story-circle viewed" : "story-circle"}
-            onClick={() => {
-              markStoryAsViewed(index);
-              setCurrentStoryIndex(index);
-            }}
-          />
-        ))}
+        <UploadButton onUpload={handleUpload} />
+        <StoryList stories={stories} onOpen={openStory} />
       </div>
 
-      {currentStoryIndex !== null && stories[currentStoryIndex] && (
-        <div className="viewer">
-          <div className="progress-container">
-            <div
-              className="progress-bar"
-              style={{
-                width: `${progress}%`,
-              }}
-            />
-          </div>
-
-          <button
-            className="close-btn"
-            onClick={() => {
-              setCurrentStoryIndex(null);
-              setProgress(0);
-            }}
-          >
-            ✕
-          </button>
-
-          <div className="viewer-left" onClick={previousStory} />
-          <div className="viewer-right" onClick={nextStory} />
-
-          <img src={stories[currentStoryIndex]?.image} alt="story" />
-        </div>
-      )}
+      <StoryViewer
+        stories={stories}
+        currentStoryIndex={currentStoryIndex}
+        progress={progress}
+        nextStory={nextStory}
+        previousStory={previousStory}
+        closeViewer={() => {
+          setCurrentStoryIndex(null);
+          setProgress(0);
+        }}
+      />
     </div>
   );
 }
