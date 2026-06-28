@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import { resizeImage } from "./utils/imageResize";
+import { loadStories, saveStories } from "./utils/storyStorage";
 
 function App() {
   const [stories, setStories] = useState([]);
@@ -8,60 +10,35 @@ function App() {
   const ONE_DAY = 24 * 60 * 60 * 1000;
   const [uploading, setUploading] = useState(false);
 
-  const handleUpload = (e) => {
-    setUploading(true);
+  const handleUpload = async (e) => {
     const file = e.target.files[0];
+
     if (!file) return;
-    const reader = new FileReader();
 
-    reader.onload = () => {
-      const img = new Image();
-      img.src = reader.result;
-      
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        
-        const MAX_WIDTH = 1080;
-        const MAX_HEIGHT = 1920;
-        
-        let width = img.width;
-        let height = img.height;
-        
-        if (width > MAX_WIDTH) {
-            height *= MAX_WIDTH / width;
-            width = MAX_WIDTH;
-          }
-          
-          
-          if (height > MAX_HEIGHT) {
-            width *= MAX_HEIGHT / height;
-            height = MAX_HEIGHT;
-          }
-          
-          canvas.width = width;
-          canvas.height = height;
-          
-          ctx.drawImage(img, 0, 0, width, height);
-          
-          const resizedImage = canvas.toDataURL("image/jpeg", 0.8);
+    setUploading(true);
 
-          const newStory = {
-            id: Date.now(),
-            image: resizedImage,
-            createdAt: Date.now(),
-            viewed: false,
-          };
-    
-          const updatedStories = [...stories, newStory];
-    
-          setStories(updatedStories);
-          localStorage.setItem("stories", JSON.stringify(updatedStories));
-          setUploading(false);
-        }
-        e.target.value = "";
-    };
-    reader.readAsDataURL(file);
+    try {
+      const resizedImage = await resizeImage(file);
+
+      const newStory = {
+        id: Date.now(),
+        image: resizedImage,
+        createdAt: Date.now(),
+        viewed: false,
+      };
+
+      const updatedStories = [...stories, newStory];
+
+      setStories(updatedStories);
+
+      saveStories(updatedStories);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setUploading(false);
+
+      e.target.value = "";
+    }
   };
 
   const openStory = (index) => {
@@ -105,7 +82,7 @@ function App() {
 
 
   useEffect(() => {
-    const savedStories = JSON.parse(localStorage.getItem("stories")) || [];
+    const savedStories = loadStories() || [];
     const validStories = savedStories.filter((story) => {
       return Date.now() - story.createdAt < ONE_DAY;
     });
