@@ -1,12 +1,16 @@
-function StoryItem({ story, index, onOpen,}) {
-    
+function StoryItem({ story, index, onOpen }) {
   return (
-    <img
-      src={story.image}
-      className={story.viewed ? "story-circle viewed" : "story-circle"}
-      onClick={() => onOpen(index)}
-      alt="story"
-    />
+    <div className="story-item" onClick={() => onOpen(index)}>
+      <div className="story-ring">
+        <img
+          src={story.image}
+          alt="Story"
+          className={`story-circle ${story.viewed ? "viewed" : ""}`}
+        />
+      </div>
+
+      <span>Story</span>
+    </div>
   );
 }
 

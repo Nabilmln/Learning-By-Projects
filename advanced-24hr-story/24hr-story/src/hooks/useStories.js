@@ -3,6 +3,7 @@ import { resizeImage } from "../utils/imageResize";
 import { loadStories, saveStories } from "../utils/storyStorage";
 
 
+
 export function useStories(){
     const [stories, setStories] = useState([]);
     const [currentStoryIndex, setCurrentStoryIndex] = useState(null);
