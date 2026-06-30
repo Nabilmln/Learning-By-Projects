@@ -1,5 +1,6 @@
 import { useRef, useEffect} from "react";
 import ProgressBar from "./ProgressBar";
+import "../styles/StoryViewer.css";
 
 function StoryViewer({
   stories,

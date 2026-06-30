@@ -1,482 +1,88 @@
 :root {
   --primary: #ff2d55;
   --secondary: #ff8a00;
-
   --background: #f5f5f7;
   --card: #ffffff;
-
   --text: #222;
   --muted: #777;
-
   --border: #e5e5e5;
-
-  --shadow: 0 12px 30px rgba(0,0,0,.08);
-
+  --shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
   --radius: 20px;
-
-  --transition: .25s ease, filter .25s ease;
+  --transition: 0.25s ease;
 }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-  font-family:
-    Inter,
-    system-ui,
-    sans-serif;
-
-  background:var(--background);
-
-  color:var(--text);
+body {
+  font-family: Inter, system-ui, sans-serif;
+  background: var(--background);
+  color: var(--text);
 }
 
-.app{
-
-  max-width:1100px;
-
-  margin:auto;
-
-  padding:40px 20px;
+.app {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
 }
 
-.header{
-
-  text-align:center;
-
-  margin-bottom:40px;
+.header {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-.header h1{
-
-  font-size:2.3rem;
-
-  font-weight:700;
-
-  margin-bottom:10px;
+.header h1 {
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 
-.header p{
-
-  color:var(--muted);
-
-  font-size:1rem;
+.header p {
+  color: var(--muted);
+  font-size: 1rem;
 }
 
-.status-message{
-
-  text-align:center;
-
-  margin-bottom:20px;
-
-  color:var(--primary);
-
-  font-weight:600;
+.status-message {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--primary);
+  font-weight: 600;
 }
 
-.story-container{
-
-  display:flex;
-
-  align-items:flex-start;
-
-  gap:18px;
-
-  overflow-x:auto;
-
-  padding:18px;
-
-  margin-bottom:30px;
-
-  background:var(--card);
-
-  border-radius:var(--radius);
-
-  box-shadow:var(--shadow);
-
-  scrollbar-width:none;
+.empty-state {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+  padding: 60px 30px;
 }
 
-.story-container::-webkit-scrollbar{
-
-  display:none;
+.empty-icon {
+  font-size: 70px;
+  margin-bottom: 20px;
 }
 
-.empty-state{
-
-  background:var(--card);
-
-  border-radius:var(--radius);
-
-  box-shadow:var(--shadow);
-
-  text-align:center;
-
-  padding:60px 30px;
+.empty-state h2 {
+  margin-bottom: 12px;
+  font-size: 1.7rem;
 }
 
-.empty-icon{
-
-  font-size:70px;
-
-  margin-bottom:20px;
+.empty-state p {
+  color: var(--muted);
+  max-width: 420px;
+  margin: auto;
+  line-height: 1.7;
 }
 
-.empty-state h2{
-
-  margin-bottom:12px;
-
-  font-size:1.7rem;
-}
-
-.empty-state p{
-
-  color:var(--muted);
-
-  max-width:420px;
-
-  margin:auto;
-
-  line-height:1.7;
-}
-
-/* STORY */
-
-.story-list{
-
-  display:flex;
-
-  gap:18px;
-}
-
-.story-item{
-
-  display:flex;
-
-  flex-direction:column;
-
-  align-items:center;
-
-  gap:8px;
-
-  cursor:pointer;
-
-  transition:var(--transition);
-}
-
-.story-item:hover{
-
-    transform:translateY(-6px);
-
-    filter:brightness(1.05);
-}
-
-.story-ring{
-
-  background:
-  linear-gradient(
-    135deg,
-    #ff0066,
-    #ff8a00,
-    #ff00aa
-  );
-
-  padding:3px;
-
-  border-radius:50%;
-}
-
-.story-circle{
-
-  width:78px;
-
-  height:78px;
-
-  border-radius:50%;
-
-  object-fit:cover;
-
-  display:block;
-
-  background:white;
-}
-
-.story-item span{
-
-  font-size:.82rem;
-
-  color:var(--text);
-}
-
-.story-circle.viewed{
-
-  opacity:.65;
-}
-
-.progress-container{
-
-    position:absolute;
-
-    top:12px;
-
-    left:20px;
-
-    right:20px;
-
-    display:flex;
-
-    gap:6px;
-
-    z-index:1004;
-}
-
-.progress-segment{
-
-    flex:1;
-
-    height:4px;
-
-    background:rgba(255,255,255,.25);
-
-    border-radius:999px;
-
-    overflow:hidden;
-}
-
-.progress-fill{
-
-    height:100%;
-
-    width:0;
-
-    background:white;
-
-    transition:width .03s linear;
-}
-
-
-/* UPLOAD */
-
-.upload-story{
-
-  display:flex;
-
-  flex-direction:column;
-
-  align-items:center;
-
-  gap:8px;
-
-  cursor:pointer;
-
-  user-select:none;
-}
-
-.upload-circle{
-
-  width:78px;
-
-  height:78px;
-
-  border-radius:50%;
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  background:var(--primary);
-
-  color:white;
-
-  font-size:2rem;
-
-  transition:var(--transition);
-
-  box-shadow:0 6px 18px rgba(255,45,85,.35);
-}
-
-.upload-story:hover .upload-circle{
-
-      transform:scale(1.08);
-
-    box-shadow: 0 10px 30px rgba(255,45,85,.4);
-}
-
-.upload-story span{
-
-  font-size:.82rem;
-}
-
-.viewer{
-    position:fixed;
-    inset:0;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    background:rgba(0,0,0,.95);
-
-    opacity:0;
-
-    transform:scale(.96);
-
-    transition:
-        opacity .25s ease,
-        transform .25s ease;
-
-    z-index:999;
-}
-
-.viewer.show{
-
-    opacity:1;
-
-    transform:scale(1);
-}
-
-.viewer-header{
-
-    position:absolute;
-
-    top:35px;
-
-    left:20px;
-
-    right:20px;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    z-index:1003;
-}
-
-.viewer-info{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-}
-
-.viewer-avatar{
-
-    width:42px;
-
-    height:42px;
-
-    border-radius:50%;
-
-    background:linear-gradient(
-        135deg,
-        #ff0066,
-        #ff8a00,
-        #ff00aa
-    );
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    font-size:20px;
-
-    color:white;
-}
-
-.viewer-text{
-
-    display:flex;
-
-    flex-direction:column;
-}
-
-.viewer-text h3{
-
-    color:white;
-
-    font-size:15px;
-
-    font-weight:600;
-}
-
-.viewer-text span{
-
-    color:rgba(255,255,255,.7);
-
-    font-size:13px;
-}
-
-.viewer img{
-
-    max-width:100%;
-
-    max-height:90vh;
-
-    object-fit:contain;
-
-    border-radius:16px;
-
-    animation:viewerImage .25s ease;
-}
-
-@keyframes viewerImage{
-
-    from{
-
-        opacity:0;
-
-        transform:translateY(15px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:translateY(0);
-
-    }
-
-}
-
-
-/* RESPONSIVE */
-
-@media(max-width:768px){
-
-  .app{
-
-    padding:25px 15px;
+@media (max-width: 768px) {
+  .app {
+    padding: 25px 15px;
   }
 
-  .header h1{
-
-    font-size:1.9rem;
-  }
-
-  .story-circle,
-  .upload-circle{
-
-    width:65px;
-
-    height:65px;
-  }
-
-  .story-container{
-
-    gap:14px;
-
-    padding:14px;
+  .header h1 {
+    font-size: 1.9rem;
   }
 }

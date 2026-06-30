@@ -1,0 +1,118 @@
+.viewer {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.95);
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 999;
+}
+
+.viewer.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.progress-container {
+  position: absolute;
+  top: 12px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  gap: 6px;
+  z-index: 1004;
+}
+
+.progress-segment {
+  flex: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: white;
+  transition: width 0.03s linear;
+}
+
+.viewer-header {
+  position: absolute;
+  top: 35px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1003;
+}
+
+.viewer-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.viewer-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    #ff0066,
+    #ff8a00,
+    #ff00aa
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  color: white;
+}
+
+.viewer-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.viewer-text h3 {
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.viewer-text span {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+}
+
+.viewer img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 16px;
+  animation: viewerImage 0.25s ease;
+}
+
+@keyframes viewerImage {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .viewer img {
+    width: 100%;
+  }
+}

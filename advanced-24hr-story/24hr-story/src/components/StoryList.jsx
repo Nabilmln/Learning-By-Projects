@@ -1,4 +1,5 @@
 import StoryItem from "./StoryItem";
+import "../styles/StoryList.css";
 
 function StoryList({ stories, onOpen }) {
   return (

@@ -1,3 +1,5 @@
+import "../styles/UploadButton.css";
+
 function UploadButton({ onUpload }) {
   return (
     <label className="upload-story">

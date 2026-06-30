@@ -1,0 +1,38 @@
+.upload-story {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.upload-circle {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--primary);
+  color: white;
+  font-size: 2rem;
+  box-shadow: 0 6px 18px rgba(255, 45, 85, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.upload-story:hover .upload-circle {
+  transform: scale(1.08);
+  box-shadow: 0 10px 30px rgba(255, 45, 85, 0.4);
+}
+
+.upload-story span {
+  font-size: 0.82rem;
+}
+
+@media (max-width: 768px) {
+  .upload-circle {
+    width: 65px;
+    height: 65px;
+  }
+}
