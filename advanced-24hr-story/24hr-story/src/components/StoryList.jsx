@@ -1,3 +1,5 @@
+import StoryItem from "./StoryItem";
+
 function StoryList({ stories, onOpen }) {
   return (
     <div className="story-list">
@@ -7,3 +9,5 @@ function StoryList({ stories, onOpen }) {
     </div>
   );
 }
+
+export default StoryList;

@@ -1,3 +1,4 @@
+
 function StoryItem({ story, index, onOpen }) {
   return (
     <div className="story-item" onClick={() => onOpen(index)}>
