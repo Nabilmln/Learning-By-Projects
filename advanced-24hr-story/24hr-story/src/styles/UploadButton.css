@@ -17,13 +17,13 @@
   background: var(--primary);
   color: white;
   font-size: 2rem;
-  box-shadow: 0 6px 18px rgba(255, 45, 85, 0.35);
+  box-shadow:var(--shadow-sm);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .upload-story:hover .upload-circle {
   transform: scale(1.08);
-  box-shadow: 0 10px 30px rgba(255, 45, 85, 0.4);
+  box-shadow:var(--shadow-md);
 }
 
 .upload-story span {

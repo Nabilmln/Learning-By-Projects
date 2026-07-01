@@ -6,7 +6,6 @@ import StoryList from "./components/StoryList";
 import StoryViewer from "./components/StoryViewer";
 
 function App() {
-
   const {
     stories,
     uploading,
