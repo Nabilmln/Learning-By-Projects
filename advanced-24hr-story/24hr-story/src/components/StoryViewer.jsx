@@ -1,6 +1,7 @@
 import { useRef, useEffect} from "react";
 import ProgressBar from "./ProgressBar";
 import "../styles/StoryViewer.css";
+import { formatTimeAgo } from "../utils/timeAgo";
 
 function StoryViewer({
   stories,
@@ -79,13 +80,12 @@ function StoryViewer({
 
           <div className="viewer-text">
             <h3>Your Story</h3>
-            <span>
-              Story {currentStoryIndex + 1} of {stories.length}
-            </span>
+            <span>{formatTimeAgo(stories[currentStoryIndex].createdAt)}</span>
           </div>
         </div>
 
         <button
+        
           className="close-btn"
           onClick={closeViewer}
           aria-label="Close story viewer"

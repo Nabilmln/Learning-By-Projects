@@ -21,7 +21,7 @@ body {
   font-family: Inter, system-ui, sans-serif;
   background: var(--background);
   color: var(--text);
-   transition: background .35s ease, color .35s ease;
+  transition: background .35s ease, color .35s ease;
 }
 
 .app {
