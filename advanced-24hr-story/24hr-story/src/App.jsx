@@ -4,6 +4,7 @@ import { useStories } from "./hooks/useStories";
 import UploadButton from "./components/UploadButton";
 import StoryList from "./components/StoryList";
 import StoryViewer from "./components/StoryViewer";
+import { useTheme } from "./hooks/useTheme";
 
 function App() {
   const {
@@ -19,55 +20,50 @@ function App() {
     setProgress,
   } = useStories();
 
+  const { theme, toggleTheme } = useTheme();
+
   return (
-  <div className="app">
-    <header className="header">
-      <h1>24hr Stories</h1>
-      <p>Share moments that disappear after 24 hours.</p>
-    </header>
+    <div className="app">
+      <header className="header">
+        <h1>24hr Stories</h1>
+        <p>Share moments that disappear after 24 hours.</p>
+        <button className="theme-toggle" onClick={toggleTheme}>
+          {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
+        </button>
+      </header>
 
-    <main>
-      {uploading && (
-        <div className="status-message">
-          Uploading story...
+      <main>
+        {uploading && <div className="status-message">Uploading story...</div>}
+
+        <div className="story-container">
+          <UploadButton onUpload={handleUpload} />
+          <StoryList stories={stories} onOpen={openStory} />
         </div>
-      )}
 
-      <div className="story-container">
-        <UploadButton onUpload={handleUpload} />
-        <StoryList
-          stories={stories}
-          onOpen={openStory}
-        />
-      </div>
+        {stories.length === 0 && (
+          <div className="empty-state">
+            <div className="empty-icon">📷</div>
 
-      {stories.length === 0 && (
-        <div className="empty-state">
-          <div className="empty-icon">📷</div>
+            <h2>No Stories Yet</h2>
 
-          <h2>No Stories Yet</h2>
+            <p>Upload your first story and share your favorite moments.</p>
+          </div>
+        )}
+      </main>
 
-          <p>
-            Upload your first story and share your
-            favorite moments.
-          </p>
-        </div>
-      )}
-    </main>
-
-    <StoryViewer
-      stories={stories}
-      currentStoryIndex={currentStoryIndex}
-      progress={progress}
-      nextStory={nextStory}
-      previousStory={previousStory}
-      closeViewer={() => {
-        setCurrentStoryIndex(null);
-        setProgress(0);
-      }}
-    />
-  </div>
-);return (
+      <StoryViewer
+        stories={stories}
+        currentStoryIndex={currentStoryIndex}
+        progress={progress}
+        nextStory={nextStory}
+        previousStory={previousStory}
+        closeViewer={() => {
+          setCurrentStoryIndex(null);
+          setProgress(0);
+        }}
+      />
+    </div>
+  );return (
   <div className="app">
     <header className="header">
       <h1>24hr Stories</h1>

@@ -9,6 +9,7 @@
   transform: scale(0.96);
   transition: opacity 0.25s ease, transform 0.25s ease;
   z-index: 999;
+  transition: background .35s ease, color .35s ease, border-color .35s ease;
 }
 
 .viewer.show {
