@@ -50,19 +50,6 @@ function App() {
           <div className="empty-state">
             <div className="empty-icon">📷</div>
 
-            {stories.length === 0 && (
-              <div className="empty-state">
-                <div className="empty-icon">📸</div>
-
-                <h2>No Stories Yet</h2>
-
-                <p>
-                  Upload your first story and it will disappear automatically
-                  after 24 hours.
-                </p>
-              </div>
-            )}
-
             <p>Upload your first story and share your favorite moments.</p>
           </div>
         )}
