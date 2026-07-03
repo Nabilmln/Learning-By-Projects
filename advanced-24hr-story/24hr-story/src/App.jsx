@@ -33,10 +33,16 @@ function App() {
       </header>
 
       <main>
-        {uploading && <div className="status-message">Uploading story...</div>}
+        {uploading && (
+          <div className="status-message">
+            <div className="spinner"></div>
+
+            <span>Uploading your story...</span>
+          </div>
+        )}
 
         <div className="story-container">
-          <UploadButton onUpload={handleUpload} />
+          <UploadButton aria-label="Upload Story" onUpload={handleUpload} />
           <StoryList stories={stories} onOpen={openStory} />
         </div>
 
@@ -44,7 +50,18 @@ function App() {
           <div className="empty-state">
             <div className="empty-icon">📷</div>
 
-            <h2>No Stories Yet</h2>
+            {stories.length === 0 && (
+              <div className="empty-state">
+                <div className="empty-icon">📸</div>
+
+                <h2>No Stories Yet</h2>
+
+                <p>
+                  Upload your first story and it will disappear automatically
+                  after 24 hours.
+                </p>
+              </div>
+            )}
 
             <p>Upload your first story and share your favorite moments.</p>
           </div>
@@ -62,46 +79,10 @@ function App() {
           setProgress(0);
         }}
       />
+
+      <footer className="footer">Built with React + Vite</footer>
     </div>
-  );return (
-  <div className="app">
-    <header className="header">
-      <h1>24hr Stories</h1>
-      <p>Share moments that disappear after 24 hours.</p>
-    </header>
-
-    <main>
-      {uploading && <div className="status-message">Uploading story...</div>}
-
-      <div className="story-container">
-        <UploadButton onUpload={handleUpload} />
-        <StoryList stories={stories} onOpen={openStory} />
-      </div>
-
-      {stories.length === 0 && (
-        <div className="empty-state">
-          <div className="empty-icon">📷</div>
-
-          <h2>No Stories Yet</h2>
-
-          <p>Upload your first story and share your favorite moments.</p>
-        </div>
-      )}
-    </main>
-
-    <StoryViewer
-      stories={stories}
-      currentStoryIndex={currentStoryIndex}
-      progress={progress}
-      nextStory={nextStory}
-      previousStory={previousStory}
-      closeViewer={() => {
-        setCurrentStoryIndex(null);
-        setProgress(0);
-      }}
-    />
-  </div>
-);
+  );
 }
 
 export default App;
